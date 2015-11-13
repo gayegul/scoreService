@@ -1,8 +1,11 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var userRouter = require('./routes/userRouter');
-var bodyParser = require('body-parser');
+var playerRouter = require('./routes/playerRouter');
 var gameRouter = require('./routes/gameRouter');
+var scoreRouter = require('./routes/scoreRouter');
+
+var bodyParser = require('body-parser');
 var port = process.env.PORT || 3000;
 var app = express();
 
@@ -14,6 +17,8 @@ app.get('/', function(req, res) {
 });
 
 app.use('/api', userRouter);
+app.use('/api', playerRouter);
 app.use('/api', gameRouter);
+app.use('/api', scoreRouter);
 mongoose.connect('mongodb://localhost:27017/scoreBoard');
 app.listen(port);
