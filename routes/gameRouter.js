@@ -25,7 +25,8 @@ router.route('/games')
         else return res.send(err);
       }
       User.findById(game.user, function(err, user) {
-      console.log(user);
+
+      // user.game.populate(game._id);
         user.game.push(game._id);
         user.save(function(err, user) {
           if(err) return res.status(500).send(err);
@@ -59,7 +60,7 @@ router.route('/games')
   .put(function(req, res) {
     Game.findById(req.params.id, function(err, game) {
       if(game.name != req.body.name) game.name = req.body.name;
-      if(game.highestscore != req.body.highestscore) game.highestscore = req.body.highestscore;
+      // if(game.highestscore != req.body.highestscore) game.highestscore = req.body.highestscore;
 
       game.save(function(err) {
         if(err) return res.send(err);
@@ -67,5 +68,9 @@ router.route('/games')
       });
     });
   });
+  // router.route('/api/games/:id')
+  // .get(function(req, res) {
+  //   Player.findById(req.params._id)
+  // });
 
 module.exports = router;

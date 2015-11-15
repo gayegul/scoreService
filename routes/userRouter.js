@@ -15,7 +15,7 @@ router.route('/users')
   .post(function(req, res) {
     var user = new User();
     user.website = req.body.website;
-    user.date = req.body.date;
+    // user.date = req.body.date;
 
     user.save(function(err) {
       if(err) {

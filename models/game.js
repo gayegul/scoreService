@@ -5,6 +5,7 @@ var User = require('./user');
 var GameSchema = new Schema({
   name: String,
   website: String,
+  // user: String
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true } //foreign key
 });
 

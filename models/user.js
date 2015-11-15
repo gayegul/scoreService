@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
   website: String,
+  // game: []
   game: [{ type: Schema.Types.ObjectId, ref: 'Game' }] //foreign key
 });
 
