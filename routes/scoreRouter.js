@@ -3,7 +3,6 @@ var express = require('express');
 var router = express.Router();
 var Player = require('../models/player');
 
-
 router.use(function(req, res, next) {
   console.log('I am a middleware to auth and stuff!');
   next();
@@ -20,17 +19,16 @@ router.route('/scores')
     score.player = req.body.player;
     score.scores = req.body.scores;
 
-      console.log(score.scores);
     score.save(function(err) {
       if(err) {
         if(err.code == 11000) return res.send('Error!');
         else return res.send(err);
       }
-      Player.findById({ player: req.body.player }, function(err, player) {
 
-      score.scores.push(req.body.scores);
-      res.send('Score created and saved!');
-    });
+      Player.findById({ player: req.body.player }, function(err, player) {
+        score.scores.push(req.body.scores);
+        res.send('Score created and saved!');
+      });
     });
   })
   .get(function(req, res) {

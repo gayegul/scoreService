@@ -14,8 +14,8 @@ router.get('/', function(req, res) {
 router.route('/users')
   .post(function(req, res) {
     var user = new User();
+    user.username = req.body.username;
     user.website = req.body.website;
-    // user.date = req.body.date;
 
     user.save(function(err) {
       if(err) {
