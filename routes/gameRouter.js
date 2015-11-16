@@ -25,28 +25,18 @@ router.route('/games')
         else return res.send(err);
       }
       User.findById(game.user, function(err, user) {
-
-      // user.game.populate(game._id);
-        user.game.push(game._id);
+        user.games.push(game._id);
         user.save(function(err, user) {
           if(err) return res.status(500).send(err);
           res.send('Game created!');
         });
       });
     });
-  })
-  .get(function(req, res) {
-    Game.find(function(err, games) {
-      if(err) return res.send(err);
-      res.json(games);
-    });
   });
 
   router.route('/games/:id')
   .delete(function(req, res) {
-    Game.remove({
-      _id: req.params.id
-    }, function(err) {
+    Game.remove({ _id: req.params.id }, function(err) {
       if(err) return res.send(err);
       res.send('Game deleted!');
     });
@@ -61,7 +51,6 @@ router.route('/games')
     Game.findById(req.params.id, function(err, game) {
       if(game.name != req.body.name) game.name = req.body.name;
       // if(game.highestscore != req.body.highestscore) game.highestscore = req.body.highestscore;
-
       game.save(function(err) {
         if(err) return res.send(err);
         res.send(game);

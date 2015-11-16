@@ -22,21 +22,13 @@ router.route('/users')
         if(err.code == 11000) return res.send('User already exists!');
         else return res.send(err);
       }
-      res.send('User created!');
-    });
-  })
-  .get(function(req, res) {
-    User.find(function(err, users) {
-      if(err) return res.send(err);
-      res.json(users);
+      res.send('User created and saved!');
     });
   });
 
   router.route('/users/:id')
   .delete(function(req, res) {
-    User.remove({
-      _id: req.params.id
-    }, function(err) {
+    User.remove({ _id: req.params.id }, function(err) {
       if(err) return res.send(err);
       res.send('User deleted!');
     });
@@ -51,7 +43,6 @@ router.route('/users')
     User.findById(req.params.id, function(err, user) {
       if(user.game != req.body.game) user.game = req.body.game;
       if(user.website != req.body.website) user.website = req.body.website;
-
       user.save(function(err) {
         if(err) return res.send(err);
         res.send(user);
