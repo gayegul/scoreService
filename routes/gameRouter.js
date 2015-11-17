@@ -1,7 +1,8 @@
-var Game = require('../models/game');
 var express = require('express');
 var router = express.Router();
+var Game = require('../models/game');
 var User = require('../models/user');
+var Score = require('../models/score');
 
 router.use(function(req, res, next) {
   console.log('I am a middleware to auth and stuff!');
@@ -50,16 +51,19 @@ router.route('/games')
   .put(function(req, res) {
     Game.findById(req.params.id, function(err, game) {
       if(game.name != req.body.name) game.name = req.body.name;
-      // if(game.highestscore != req.body.highestscore) game.highestscore = req.body.highestscore;
+      if(game.website != req.body.website) game.website = req.body.website;
       game.save(function(err) {
         if(err) return res.send(err);
         res.send(game);
       });
     });
   });
-  // router.route('/api/games/:id')
-  // .get(function(req, res) {
-  //   Player.findById(req.params._id)
-  // });
+
+  router.route('/games/:game/scores')
+  .get(function(req, res) {
+    Score.find({ game: req.params.game }, function(err, scores) {
+      res.send(scores.scores);
+    });
+  });
 
 module.exports = router;

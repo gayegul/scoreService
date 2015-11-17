@@ -20,5 +20,7 @@ app.use('/api', userRouter);
 app.use('/api', playerRouter);
 app.use('/api', gameRouter);
 app.use('/api', scoreRouter);
+
+// open the connection to the server
 mongoose.connect('mongodb://localhost:27017/scoreBoard');
 app.listen(port);

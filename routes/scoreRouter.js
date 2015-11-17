@@ -14,54 +14,35 @@ router.get('/', function(req, res) {
 
 router.route('/scores')
   .post(function(req, res) {
-    var score = new Score();
-    score.game = req.body.game;
-    score.player = req.body.player;
-    score.scores = req.body.scores;
-
-    score.save(function(err) {
-      if(err) {
-        if(err.code == 11000) return res.send('Error!');
-        else return res.send(err);
+    Score.findOne({ player: req.body.player, game: req.body.game }, function(err, scoreObj) {
+      if(err) return res.send(err);
+      console.log(scoreObj);
+      if(scoreObj) {
+        if(req.body.score > scoreObj.score) {
+          scoreObj.score = req.body.score;
+          scoreObj.save(function(err) {
+            if(err) return res.send(err);
+            return res.send('Score updated and saved!');
+          });
+        } else {
+          return res.send('Score ignored! Previous score: ' + scoreObj.score);
+        }
+      } else {
+        var score = new Score();
+        score.game = req.body.game;
+        score.player = req.body.player;
+        score.score = req.body.score;
+        score.save(function(err) {
+          if(err) return res.send(err);
+          return res.send('Score updated and saved!');
+        });
       }
-
-      Player.findById({ player: req.body.player }, function(err, player) {
-        score.scores.push(req.body.scores);
-        res.send('Score created and saved!');
-      });
     });
   })
   .get(function(req, res) {
     Score.find(function(err, scores) {
       if(err) return res.send(err);
       res.json(scores);
-    });
-  });
-
-  router.route('/scores/:id')
-  .delete(function(req, res) {
-    Score.remove({ _id: req.params.id }, function(err) {
-      if(err) return res.send(err);
-      res.send('Score deleted!');
-    });
-  })
-
-  // gets all scores for one player
-  .get(function(req, res) {
-    Score.find({ player: req.params.id }, function(err, scores) {
-      if(err) return res.send(err);
-      res.send(scores);
-    });
-  })
-  .put(function(req, res) {
-    Score.findById(req.params.id, function(err, score) {
-      if(score.game != req.body.game) score.game = req.body.game;
-      if(score.player != req.body.player) score.player = req.body.player;
-
-      score.save(function(err) {
-        if(err) return res.send(err);
-        res.send(score);
-      });
     });
   });
 
