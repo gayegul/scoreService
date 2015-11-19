@@ -12,40 +12,48 @@ router.get('/', function(req, res) {
 });
 
 router.route('/users')
+  //creates a user
   .post(function(req, res) {
     var user = new User();
     user.username = req.body.username;
     user.website = req.body.website;
 
     user.save(function(err) {
-      if(err) {
-        if(err.code == 11000) return res.send('User already exists!');
-        else return res.send(err);
-      }
-      res.send('User created and saved!');
+      if(err) return res.send(err);
+      return res.send('User created and saved!');
     });
   });
 
-  router.route('/users/:id')
+  router.route('/users/:userId')
+  //deletes the specified user
   .delete(function(req, res) {
-    User.remove({ _id: req.params.id }, function(err) {
+    User.remove({ _id: req.params.userId }, function(err) {
       if(err) return res.send(err);
-      res.send('User deleted!');
+      return res.send('User deleted!');
     });
   })
+  //returns the user
   .get(function(req, res) {
-    User.findById(req.params.id, function(err, user) {
+    User.findById(req.params.userId, function(err, user) {
       if(err) return res.send(err);
-      res.send(user);
+      return res.send(user);
     });
   })
+  //updates user info
   .put(function(req, res) {
-    User.findById(req.params.id, function(err, user) {
-      if(user.game != req.body.game) user.game = req.body.game;
-      if(user.website != req.body.website) user.website = req.body.website;
+    User.findById(req.params.userId, function(err, user) {
+      if(user.username != req.body.username) {
+        user.username = req.body.username;
+      }
+      if(user.website != req.body.website) {
+        user.website = req.body.website;
+      }
+      if(user.game != req.body.game) {
+        user.game = req.body.game;
+      }
       user.save(function(err) {
         if(err) return res.send(err);
-        res.send(user);
+        return res.send(user);
       });
     });
   });
