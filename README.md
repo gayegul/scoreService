@@ -1,34 +1,47 @@
 # scoreService
 A simple RESTful API to keep game scores that utilizes Node, Express, and MongoDB.
 
-`/api/users`  
-POST: website and game info on request body creates a new user  
-`/api/users/:id`  
-GET: shows the specified user  
-DELETE: deletes the specified user  
-PUT: new website or game info updates existing user  
+All routes start with:  
+`/api`
 
-`/api/games`  
-POST: name, website and userId info on request body creates a new game   
-`/api/games/:id`  
-GET: shows the specified game  
-DELETE: deletes the specified game  
-PUT: new name info on request body updates existing game  
+Routes:  
+`/users`  
+POST: creates a new user  
+`/users/:userId`  
+GET: returns specified user  
+DELETE: deletes specified user  
+PUT: updates existing user  
 
-`/api/games/:game/scores`  
-GET: returns the top ten scores for this game  
-`/api/games/:game/scores/:player`  
-GET: returns the top ten scores for this particular player  
-POST: posts a score for that game for this player  
+`/games`  
+POST: creates new game  
+`/games/:gameId`  
+GET: returns specified game  
+DELETE: deletes specified game  
+PUT: updates existing game  
+
 <!-- next one needs fixing -->  
-`api/games/:game/players/:player/score`  
-GET: shows a player's score for a specific game  
+`/games/:game/scores`  
+GET: returns top ten scores for specified game  
 
-`/api/players`  
+<!-- Isn't this POST '/scores' route?  -->
+POST: creates a score for specified game for particular player  
+
+`/games/:game/players/:player/score`  
+GET: returns a player's score for a specific game  
+<!-- add this -->
+POST: creates or updates a score
+
+<!-- remove this  -->
+`/scores`  
+POST: creates or updates a score
+<!-- is this GET necessary? -->
+GET: returns an array of score objects/all scores for all games
+
+`/players`  
 POST: creates a player  
-`/api/players/:player`  
-GET: return the player  
-DELETE: deletes the player  
-PUT: updates the player info  
-`/api/players/:player/games`  
-GET: shows games that are played by player  
+`/players/:player`  
+GET: returns specified player  
+DELETE: deletes specified player  
+PUT: updates specified player's info  
+`/players/:player/games`  
+GET: returns games that are played by specified player  
