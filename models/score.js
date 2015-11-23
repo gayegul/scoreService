@@ -9,4 +9,6 @@ var ScoreSchema = new Schema({
   score: { type: Number, required: true } //[{ type: Schema.Types.ObjectId, ref: 'Player', required: true }]
 });
 
+ScoreSchema.index({ game: 1, player: 1 }, { unique: true });
+
 module.exports = mongoose.model('Score', ScoreSchema);
