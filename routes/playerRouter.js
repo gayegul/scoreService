@@ -1,63 +1,57 @@
-var Player = require('../models/player');
 var express = require('express');
 var router = express.Router();
+var app = require('../lib/app');
+var Player = require('../models/player');
+var Game = require('../models/game');
+var Score = require('../models/score');
 
 router.use(function(req, res, next) {
-  console.log('I am a middleware to auth and stuff!');
+  console.log('I am a middleware to auth and stuff.');
   next();
 });
 
 router.get('/', function(req, res) {
-  res.json({ message: 'This is our API!'});
+  res.json({ message: 'This is our API.'});
 });
 
 router.route('/players')
+  //creates and saves a new player
   .post(function(req, res) {
-    var player = new Player();
-    player.name = req.body.name;
-    player.username = req.body.username;
-    player.password = req.body.password;
-    player.email = req.body.email;
-
-    player.save(function(err) {
-      if(err) {
-        if(err.code == 11000) return res.send('Player already exists!');
-        else return res.send(err);
-      }
-      res.send('Player created!');
-    });
-  })
-  .get(function(req, res) {
-    Player.find(function(err, players) {
-      if(err) return res.send(err);
-      res.json(players);
+    app.createPlayer(req.body.name, req.body.username, req.body.password, req.body.email, function(err, player) {
+      if(err) return res.send({ "error" : err });
+      return res.send(player); // why not use null here instead of error???
     });
   });
 
-  router.route('/players/:id')
-  .delete(function(req, res) {
-    Player.remove({
-      _id: req.params.id
-    }, function(err) {
-      if(err) return res.send(err);
-      res.send('Player deleted!');
-    });
-  })
+router.route('/players/:playerId')
+  //returns the specified player object
   .get(function(req, res) {
-    Player.findById(req.params.id, function(err, player) {
-      if(err) return res.send(err);
-      res.send(player);
+    app.getPlayer(req.params.playerId, function(err, player) {
+      if(err) return res.send({ "error" : err });
+      return res.send(player);
     });
   })
+  //deletes the specified player
+  .delete(function(req, res) {
+    app.deletePlayer(req.params.playerId, function(err) {
+      if(err) return res.send({ "error" : err });
+      return res.send('Player deleted.');
+    });
+  })
+  //updates player information
   .put(function(req, res) {
-    Player.findById(req.params.id, function(err, player) {
-      if(player.name != req.body.name) player.name = req.body.name;
-      if(player.username != req.body.username) player.username = req.body.username;
+    app.updatePlayer(req.params.playerId, req.body.name, req.body.username, function(err, player) {
+      if(err) return res.send({ "error" : err });
+      return res.send(player);
+    });
+  });
 
-      player.save(function(err) {
-        if(err) return res.send(err);
-        res.send(player);
-      });
+router.route('/players/:player/games')
+  //returns games (game objects) that are played by the player
+  .get(function(req, res) {
+    app.getGamesOfPlayer(req.params.player, function(err, games) {
+      if(err) return res.send({ "error" : err });
+      return res.send(games);
     });
   });
 

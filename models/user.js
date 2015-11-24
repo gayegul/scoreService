@@ -3,9 +3,8 @@ var Schema = mongoose.Schema;
 var Game = require('./game');
 
 var UserSchema = new Schema({
-  username: { type: String, required: true},
-  website: String,
-  games: [{ type: Schema.Types.ObjectId, ref: 'Game' }] //foreign key
+  username: { type: String, required: true, index: { unique: true }},
+  website: String
 });
 
 module.exports = mongoose.model('User', UserSchema);
