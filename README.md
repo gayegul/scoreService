@@ -1,30 +1,28 @@
 # scoreService
-A simple RESTful API to keep game scores that utilizes Node, Express, and MongoDB.
+A RESTful web service API to keep game scores that utilizes Node, Express, and MongoDB.
 
 All routes start with:  
 `/api`
 
-Routes:  
+ROUTES
+
 `/users`  
 POST: creates a new user  
 `/users/:userId`  
-GET: returns specified user  
-DELETE: deletes specified user  
+GET: returns user  
+DELETE: deletes user  
 PUT: updates existing user  
 
 `/games`  
 POST: creates new game  
 `/games/:gameId`  
-GET: returns specified game  
-DELETE: deletes specified game  
+GET: returns game  
+DELETE: deletes game  
 PUT: updates existing game  
 
 <!-- next one needs fixing -->  
 `/games/:game/scores`  
 GET: returns top ten scores for specified game  
-
-<!-- Isn't this POST '/scores' route?  -->
-POST: creates a score for specified game for particular player  
 
 `/games/:game/players/:player/score`  
 GET: returns a player's score for a specific game  
