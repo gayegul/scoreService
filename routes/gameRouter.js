@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
 
 router.route('/games')
   //creates a new game
-  .post(function(req, res) { //Let's you create the same thing over and over. PROBLEM! --> SOLVED!
+  .post(function(req, res) { 
     app.createGame(req.body.name, req.body.website, req.body.userId, function(err, game) {
       if(err) return res.send({ "error" : err });
       return res.send(game);

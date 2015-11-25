@@ -31,7 +31,7 @@ router.route('/users/:userId')
   })
   //returns the user
   //DONT USE _ID AS A UNIQUE COLUMN IN TABLES WHERE THERE IS ANOTHER UNIQUE COLUMN, USE UNIQUE C. INSTEAD
-  //use findone to find instead of findbyid
+  //use findone to find instead of findById
   .get(function(req, res) {
     app.getUser(req.params.userId, function(err, user) {
       if(err) return res.send({ "error" : err });

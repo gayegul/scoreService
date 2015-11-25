@@ -19,7 +19,7 @@ router.route('/players')
   .post(function(req, res) {
     app.createPlayer(req.body.name, req.body.username, req.body.password, req.body.email, function(err, player) {
       if(err) return res.send({ "error" : err });
-      return res.send(player); // why not use null here instead of error???
+      return res.send(player); // WHY not use null here instead of error???
     });
   });
 
