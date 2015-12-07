@@ -31,6 +31,7 @@ router.route('/games')
       return res.send(game);
     });
   })
+
   //returns the game object
   .get(function(req, res) {
     app.getGame(req.params.gameId, function(err, game) {
