@@ -21,26 +21,24 @@ router.route('/users')
     });
   });
 
-router.route('/users/:userId')
+router.route('/users/:username')
   //deletes the specified user
   .delete(function(req, res) {
-    app.deleteUser(req.params.userId, function(err) {
+    app.deleteUser(req.params.username, function(err) {
       if(err) return res.send({ "error" : err });
       return res.send('User deleted.');
     });
   })
   //returns the user
-  //DONT USE _ID AS A UNIQUE COLUMN IN TABLES WHERE THERE IS ANOTHER UNIQUE COLUMN, USE UNIQUE C. INSTEAD
-  //use findone to find instead of findById
   .get(function(req, res) {
-    app.getUser(req.params.userId, function(err, user) {
+    app.getUser(req.params.username, function(err, user) {
       if(err) return res.send({ "error" : err });
       return res.send(user);
     });
   })
   //updates user info
   .put(function(req, res) {
-    app.updateUser(req.params.userId, req.body.username, req.body.website, function(err, user) {
+    app.updateUser(req.params.username, req.body.username, req.body.website, function(err, user) {
       if(err) return res.send({ "error" : err });
       return res.send(user);
     });
