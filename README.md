@@ -44,7 +44,7 @@ change unique columns instead of _ids where fit
 fix scoring type, adjust when low or high is desired
 change id's to names in urls
 drop db and retest routes manually
-do testing
 add auth
+do testing
 connect it with a game
  -->
