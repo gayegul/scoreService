@@ -10,9 +10,17 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.14.1",
-    "chai": "*",
     "express": "^4.13.3",
-    "mocha": "*",
     "mongoose": "^4.2.4"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "chai-http": "^1.0.0",
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "jshint": "^2.9.1",
+    "mocha": "^2.3.4",
+    "mockgoose": "^5.2.2"
   }
 }
