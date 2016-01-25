@@ -28,7 +28,7 @@ router.route('/games')
   .delete(function(req, res) {
     app.deleteGame(req.params.gameName, function(err, game) {
       if(err) return res.status(500).send({ "error" : err });
-      return res.send(game);
+      return res.send({ "message": "Game deleted." });
     });
   })
   //returns the game object
