@@ -25,7 +25,7 @@ router.route('/users/:username')
   .delete(function(req, res) {
     app.deleteUser(req.params.username, function(err) {
       if(err) return res.status(500).send({ "error" : err });
-      return res.send({ "message" : 'User deleted.' });
+      return res.send({ "message" : "User deleted." });
     });
   })
   //returns the user
