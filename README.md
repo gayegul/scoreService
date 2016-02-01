@@ -7,7 +7,7 @@ All routes start with: `/api`
 `/users`  
 POST: creates a new user  
 
-`/users/:userId`  
+`/users/:user`  
 GET: returns user  
 DELETE: deletes user  
 PUT: updates existing user  
@@ -15,7 +15,7 @@ PUT: updates existing user
 `/games`  
 POST: creates new game  
 
-`/games/:gameId`  
+`/games/:game`  
 GET: returns game  
 DELETE: deletes game  
 PUT: updates existing game  
@@ -25,7 +25,7 @@ GET: returns top ten scores for specified game
 
 `/games/:game/players/:player/score`  
 GET: returns a player's score for a specific game  
-POST: creates a score
+POST: creates a score  
 PUT: updates a score  
 
 `/players`  
@@ -42,9 +42,6 @@ GET: returns games that are played by specified player
 <!-- Todo
 change unique columns instead of _ids where fit
 fix scoring type, adjust when low or high is desired
-change id's to names in urls
-drop db and retest routes manually
 add auth
-do testing
-connect it with a game
+connect it with a game to make it full-stack
  -->

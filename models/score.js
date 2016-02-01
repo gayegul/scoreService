@@ -4,8 +4,9 @@ var Game = require('./game');
 var Player = require('./player');
 
 var ScoreSchema = new Schema({
-  game: { type: Schema.Types.Mixed, ref: 'Game', required: true },
-  player: { type: Schema.Types.Mixed, ref: 'Player', required: true },
+  //Used .ObjectId to reference another model
+  game: { type: Schema.Types.ObjectId, ref: 'Game', required: true },
+  player: { type: Schema.Types.ObjectId, ref: 'Player', required: true },
   score: { type: Number, required: true }
 });
 
