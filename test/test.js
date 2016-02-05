@@ -22,44 +22,46 @@ describe('user router testing', function() {
   it('should create a user', function(done) {
     chai.request(server)
     .post('/api/users/')
-    .send({ "username": "test", "website": "test" })
+    .send({ 'username': 'testUsername', 'website': 'testWebsite' })
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('_id');
-      expect(res.body.username).to.equal('test');
+      expect(res.body.username).to.equal('testUsername');
       id = res.body._id;
+      username = res.body.username;
       done();
     });
   });
 
   it('should return a user', function(done) {
     chai.request(server)
-    .get('/api/users/' + id)
+    .get('/api/users/' + username)
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
-      expect(res.body).to.have.property('username', 'test');
+      expect(res.body).to.have.property('username', 'testUsername');
       done();
     });
   });
 
   it('should update a user with new info', function(done) {
     chai.request(server)
-    .put('/api/users/test')
-    .send({ "username": "test2", "website": "website2" })
+    .put('/api/users/' + username)
+    .send({ 'username': 'updatedTestUsername', 'website': 'updatedTestWebsite' })
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
-      expect(res.body.username).to.be.equal('test2');
+      expect(res.body.username).to.be.equal('updatedTestUsername');
+      username = res.body.username;
       done();
     });
   });
 
   it('should fail to update user with existing info', function(done) {
     chai.request(server)
-    .put('/api/users/test2')
-    .send({ "username": "test2", "website": "website2" })
+    .put('/api/users/updatedTestUsername')
+    .send({ 'username': 'updatedTestUsername', 'website': 'updatedTestWebsite' })
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(err).to.not.equal(200);
@@ -72,12 +74,13 @@ describe('user router testing', function() {
   it('should create a new game', function(done) {
     chai.request(server)
     .post('/api/games')
-    .send({ "name": "testgame", "website": "website2", "user": "test2" })
+    .send({ 'name': 'testGameName', 'website': 'updatedTestWebsite', 'user': 'updatedTestUsername' })
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
-      expect(res.body).to.have.property('name', 'testgame');
+      expect(res.body).to.have.property('name', 'testGameName');
       gamename = res.body.name;
+      user = res.body.user._id;
       done();
     });
   });
@@ -86,12 +89,12 @@ describe('user router testing', function() {
   it('should create a player', function(done) {
     chai.request(server)
     .post('/api/players/')
-    .send({ "name": "test", "username": "testplayer", "password": "1234", "email": "test" })
+    .send({ 'name': 'testPlayerName', 'username': 'testPlayerUsername', 'password': '1234', 'email': 'testEmail' })
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('_id');
-      expect(res.body.username).to.equal('testplayer');
+      expect(res.body.username).to.equal('testPlayerUsername');
       playerUsername = res.body.username;
       playerId = res.body._id;
       done();
@@ -112,11 +115,12 @@ describe('user router testing', function() {
   it('should update player info', function(done) {
     chai.request(server)
     .put('/api/players/' + playerUsername)
-    .send({ "name": "test2", "username": "testplayer2" })
+    .send({ 'name': 'testUpdatedPlayerName', 'username': 'testUpdatedPlayerUsername' })
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
-      expect(res.body.username).to.equal('testplayer2');
+      expect(res.body.username).to.equal('testUpdatedPlayerUsername');
+      playerUsername = res.body.username;
       done();
     });
   });
@@ -140,7 +144,7 @@ describe('user router testing', function() {
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
-      expect(res.body).to.have.property('user', id);
+      expect(res.body).to.have.property('user', user);
       done();
     });
   });
@@ -149,7 +153,7 @@ describe('user router testing', function() {
   it('should update an existing game', function(done) {
     chai.request(server)
     .put('/api/games/' + gamename)
-    .send({ "website": "website" })
+    .send({ 'website': 'website' })
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
@@ -162,7 +166,7 @@ describe('user router testing', function() {
   it('should create a score', function(done) {
     chai.request(server)
     .post('/api/games/' + gamename + '/players/' + playerUsername + '/score')
-    .send({ "game": "testgame", "player": "testplayer", "score": 100 })
+    .send({ 'score': 100 })
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
@@ -174,12 +178,11 @@ describe('user router testing', function() {
 
   it('should fail creating a score with a nonexisting player', function(done) {
     chai.request(server)
-    .post('/api/games/' + gamename + '/players/' + playerUsername + '/score')
-    .send({ "game": "testgame", "player": "player100", "score": 1000 })
+    .post('/api/games/' + gamename + '/players/nonexistingPlayer/score')
+    .send({ 'score': 1000 })
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.not.have.status(200);
-      console.log(res.body.error);
       expect(res.body).to.have.property('error', 'Player not found.');
       done();
     });
@@ -190,7 +193,7 @@ describe('user router testing', function() {
   it('should update an existing score', function(done) {
     chai.request(server)
     .put('/api/games/' + gamename + '/players/' + playerUsername + '/score')
-    .send({ "game": "testgame", "player": "testplayer", "score": 200 })
+    .send({ 'score': 200 })
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
@@ -283,7 +286,7 @@ describe('user router testing', function() {
 
   it('should delete a user', function(done) {
     chai.request(server)
-    .delete('/api/users/' + id)
+    .delete('/api/users/' + username)
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
@@ -292,9 +295,9 @@ describe('user router testing', function() {
     });
   });
 
-  it('should fail deleting a nonexistent user', function(done) {
+  it('should fail deleting a nonexisting user', function(done) {
     chai.request(server)
-    .delete('/api/users/test1')
+    .delete('/api/users/nonexistingUser')
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.not.have.status(200);
@@ -305,7 +308,7 @@ describe('user router testing', function() {
 
   it('should fail returning a nonexisting user', function(done) {
     chai.request(server)
-    .get('/api/users/test1')
+    .get('/api/users/nonexistingUser')
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(err).to.not.equal(200);
@@ -319,3 +322,6 @@ describe('user router testing', function() {
   });
 
 });
+
+//TODO
+// use single quotes everywhere
