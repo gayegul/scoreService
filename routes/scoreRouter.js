@@ -4,7 +4,7 @@ var router = express.Router();
 var Player = require('../models/player');
 
 router.use(function(req, res, next) {
-  // console.log('I am a middleware to auth and stuff.');
+  // console.log('I am a middleware to auth soon.');
   next();
 });
 

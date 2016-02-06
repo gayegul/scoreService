@@ -322,6 +322,3 @@ describe('user router testing', function() {
   });
 
 });
-
-//TODO
-// use single quotes everywhere

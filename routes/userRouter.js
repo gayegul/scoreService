@@ -3,7 +3,7 @@ var router = express.Router();
 var app = require('../lib/app');
 
 router.use(function(req, res, next) {
-  //console.log('I am a middleware to auth and stuff.');
+  //console.log('I am a middleware to auth soon.');
   next();
 });
 
