@@ -220,8 +220,8 @@ describe('user router testing', function() {
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.have.status(200);
-      expect(res.body).to.have.property('game');
-      expect(res.body).to.have.property('player');
+      expect(res.body).to.have.length.of.at.least(1);
+      expect(res.body[0]).to.have.property('name', 'testGameName');
       done();
     });
   });
