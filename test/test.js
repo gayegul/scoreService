@@ -188,7 +188,17 @@ describe('user router testing', function() {
     });
   });
 
-  it('should fail creating a score with a nonexisting game');
+  it('should fail creating a score with a nonexisting game', function(done) {
+    chai.request(server)
+    .post('/api/games/nonexistingGame/players/' + playerUsername + '/score')
+    .send({ 'score': 500 })
+    .end(function(err, res) {
+      expect(err).to.equal(null);
+      expect(res).to.not.have.status(200);
+      expect(res.body).to.have.property('error', 'Game not found.');
+      done();
+    });
+  });
 
   it('should update an existing score', function(done) {
     chai.request(server)
