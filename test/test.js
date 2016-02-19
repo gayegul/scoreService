@@ -125,19 +125,6 @@ describe('user router testing', function() {
     });
   });
 
-// //add some games first to test this block
-//   it('should return games played by the player', function(done) {
-//     chai.request(server)
-//     .get('/api/players/' + playerId + '/games')
-//     .end(function(err, res) {
-//       expect(err).to.equal(null);
-//       expect(res).to.have.status(200);
-//       console.log(res.body);
-//       // expect(res.body).to.have.property('game');
-//       done();
-//     });
-//   });
-
   it('should return an existing game', function(done) {
     chai.request(server)
     .get('/api/games/' + gamename)
@@ -149,7 +136,6 @@ describe('user router testing', function() {
     });
   });
 
-//name does not update but website does, make sure it is bc of 'index: unique'
   it('should update an existing game', function(done) {
     chai.request(server)
     .put('/api/games/' + gamename)
@@ -266,7 +252,6 @@ describe('user router testing', function() {
     .end(function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.not.have.status(200);
-      //double check when it is 'message' vs 'error'? It is not consistent atm.
       expect(res.body).to.have.property('error', 'Game not found.');
       done();
     });
