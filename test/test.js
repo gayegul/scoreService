@@ -323,6 +323,13 @@ describe('user router testing', function() {
     });
   });
 
+  it('should delete all scores for the deleted player');
+
+  it('should delete all scores for the deleted game');
+
+  it('should delete all scores and games for the deleted user');
+
+
   after(function(done) {
     mongoose.unmock(done);
   });
