@@ -236,7 +236,18 @@ describe('user router testing', function() {
     });
   });
 
-  it('should return top ten scores for a specified game');
+  it('should return top ten scores for a specified game', function(done) {
+    chai.request(server)
+    .get('/api/games/' + gamename + '/scores')
+    .end(function(err, res) {
+      expect(err).to.equal(null);
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.length.of.at.least(1);
+      expect(res.body[0]).to.have.property('username', 'testUpdatedPlayerUsername');
+      expect(res.body[0]).to.have.property('score', 200);
+      done();
+    });
+  });
 
   it('should delete an existing game', function(done) {
     chai.request(server)
