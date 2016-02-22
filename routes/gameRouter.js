@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var app = require('../lib/app');
-var Game = require('../models/game');
-var User = require('../models/user');
-var Score = require('../models/score');
 
 router.use(function(req, res, next) {
   // console.log('I am a middleware to auth soon.');
